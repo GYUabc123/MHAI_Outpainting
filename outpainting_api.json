@@ -1,0 +1,348 @@
+{
+  "4": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "5": {
+    "inputs": {
+      "image": "image(1).JPG"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "6": {
+    "inputs": {
+      "guidance": 35,
+      "conditioning": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "FluxGuidance",
+    "_meta": {
+      "title": "FluxGuidance"
+    }
+  },
+  "10": {
+    "inputs": {
+      "conditioning": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "（负面提示词）条件零化"
+    }
+  },
+  "11": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "302",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "正面提示词"
+    }
+  },
+  "12": {
+    "inputs": {
+      "vae_name": "flux_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "13": {
+    "inputs": {
+      "samples": [
+        "19",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "14": {
+    "inputs": {
+      "aspect_ratio": "original",
+      "proportional_width": 1,
+      "proportional_height": 1,
+      "fit": "crop",
+      "method": "lanczos",
+      "round_to_multiple": "8",
+      "scale_to_side": "longest",
+      "scale_to_length": 1024,
+      "background_color": "#000000",
+      "image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "LayerUtility: ImageScaleByAspectRatio V2",
+    "_meta": {
+      "title": "LayerUtility: ImageScaleByAspectRatio V2"
+    }
+  },
+  "15": {
+    "inputs": {
+      "noise_mask": false,
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "10",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ],
+      "pixels": [
+        "21",
+        0
+      ],
+      "mask": [
+        "21",
+        1
+      ]
+    },
+    "class_type": "InpaintModelConditioning",
+    "_meta": {
+      "title": "InpaintModelConditioning"
+    }
+  },
+  "16": {
+    "inputs": {
+      "expand": 10,
+      "incremental_expandrate": 0,
+      "tapered_corners": true,
+      "flip_input": false,
+      "blur_radius": 0,
+      "lerp_alpha": 1,
+      "decay_factor": 1,
+      "fill_holes": false,
+      "mask": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "GrowMaskWithBlur",
+    "_meta": {
+      "title": "Grow Mask With Blur"
+    }
+  },
+  "17": {
+    "inputs": {
+      "invert_mask": false,
+      "grow": 5,
+      "blur": 1,
+      "mask": [
+        "21",
+        1
+      ]
+    },
+    "class_type": "LayerMask: MaskGrow",
+    "_meta": {
+      "title": "LayerMask: MaskGrow"
+    }
+  },
+  "18": {
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "offset_x": 0,
+      "offset_y": 0,
+      "destination": [
+        "13",
+        0
+      ],
+      "source": [
+        "13",
+        0
+      ],
+      "mask": [
+        "16",
+        1
+      ]
+    },
+    "class_type": "ImageComposite+",
+    "_meta": {
+      "title": "🔧 Image Composite"
+    }
+  },
+  "19": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": [
+        "23",
+        0
+      ],
+      "steps": 30,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "294",
+        0
+      ],
+      "positive": [
+        "15",
+        0
+      ],
+      "negative": [
+        "15",
+        1
+      ],
+      "latent_image": [
+        "15",
+        2
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Advanced)"
+    }
+  },
+  "21": {
+    "inputs": {
+      "left": 640,
+      "top": 0,
+      "right": 640,
+      "bottom": 0,
+      "feathering": 15,
+      "image": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "ImagePadForOutpaint",
+    "_meta": {
+      "title": "Pad Image for Outpainting"
+    }
+  },
+  "22": {
+    "inputs": {
+      "images": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "23": {
+    "inputs": {
+      "seed": 754784430718704
+    },
+    "class_type": "easy seed",
+    "_meta": {
+      "title": "EasySeed"
+    }
+  },
+  "275": {
+    "inputs": {
+      "unet_name": "unet_bf16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "277": {
+    "inputs": {
+      "rgthree_comparer": {
+        "images": [
+          {
+            "name": "A",
+            "selected": true,
+            "url": "/api/view?filename=rgthree.compare._temp_erfat_00065_.png&type=temp&subfolder=&rand=0.5249801777058765"
+          },
+          {
+            "name": "B",
+            "selected": true,
+            "url": "/api/view?filename=rgthree.compare._temp_erfat_00066_.png&type=temp&subfolder=&rand=0.7587146382100214"
+          }
+        ]
+      },
+      "image_a": [
+        "21",
+        0
+      ],
+      "image_b": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "Image Comparer (rgthree)",
+    "_meta": {
+      "title": "Image Comparer (rgthree)"
+    }
+  },
+  "294": {
+    "inputs": {
+      "lora_name": "Hands + Feet + skin perfection style zib v1.safetensors",
+      "strength_model": 1,
+      "model": [
+        "275",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "302": {
+    "inputs": {
+      "clip_name1": "clip_l.safetensors",
+      "clip_name2": "t5xxl_fp16.safetensors",
+      "type": "flux",
+      "device": "default"
+    },
+    "class_type": "DualCLIPLoader",
+    "_meta": {
+      "title": "DualCLIPLoader"
+    }
+  },
+  "306": {
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  }
+}
